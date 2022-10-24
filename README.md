@@ -75,6 +75,8 @@ Install the python libraries with the same version :
 pip install -r requirements.txt
 ```
 
+pip freeze | findstr nltk
+
 ### Execution
 
 ```bash
