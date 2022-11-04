@@ -6,7 +6,7 @@ Author : Oumeima EL GHARBI.
 
 Date : October, November 2022.
 
-
+C:\ProgramData\Anaconda3\python.exe -m pip install --upgrade --force-reinstall opencv-python
 
 ### Context
 
@@ -69,13 +69,18 @@ We also computed a RFM (Recency, Frequency, Monetary) Score and tried a Segmenta
 
 ### Libraries
 
+With this command below, we got the requirements file for this project :
+```bash
+pipreqs
+```
+
 Install the python libraries with the same version :
 
 ```bash
 pip install -r requirements.txt
 ```
 
-pip freeze | findstr nltk
+
 
 ### Execution
 
