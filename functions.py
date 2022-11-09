@@ -8,7 +8,7 @@ from time import time, strftime, gmtime
 import warnings
 
 # warnings.filterwarnings(action="ignore")
-warnings.filterwarnings(action="once")
+warnings.filterwarnings(action="ignore")
 
 
 def load_data(path, filename):
