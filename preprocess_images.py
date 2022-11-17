@@ -3,6 +3,7 @@ import pandas as pd
 # visualization
 import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
 
 from PIL import Image
 
@@ -10,6 +11,39 @@ from pandarallel import pandarallel
 
 from random import randrange
 from matplotlib.image import imread
+
+from sklearn.metrics import adjusted_rand_score
+from sklearn.cluster import KMeans, MiniBatchKMeans
+
+from tqdm import tqdm
+
+from sklearn import manifold, decomposition
+
+
+global seed
+seed = 42
+
+def save_features(path, filename, features):
+    """
+
+    :param path:
+    :param filename:
+    :param features:
+    :return:
+    """
+    np.savez_compressed(path + filename, features)
+
+
+def load_features(path, filename):
+    """
+
+    :param path:
+    :param filename:
+    :return:
+    """
+    dict_data = np.load(path + filename, allow_pickle=True)
+    features = dict_data['arr_0']
+    return features
 
 
 def list_fct(category, list_img_in_dir, df, img_column_name, label_column_name):
@@ -63,3 +97,91 @@ def display_images_per_category(categories, df, path, img_column_name, label_col
             plt.imshow(img)
 
         plt.show()
+
+
+def add_cluster_tsne(df_tsne, cls):
+    """
+
+    :param df_tsne:
+    :param cls:
+    :return:
+    """
+    df_tsne_cls = df_tsne.copy()
+
+    df_tsne_cls["cluster"] = cls.labels_
+    print(df_tsne_cls.shape)
+    return df_tsne_cls
+
+
+def clustering_tsne(X_tsne):
+    """
+
+    :param X_tsne:
+    :return:
+    """
+    cls = KMeans(n_clusters=7, random_state=6)
+    cls.fit(X_tsne)
+    return cls
+
+
+def display_tsne(df_tsne, column_name):
+    """
+
+    :param df_tsne:
+    :param column_name:
+    :return:
+    """
+    plt.figure(figsize=(8, 5))  # (10, 6)
+    sns.scatterplot(
+        x="tsne1", y="tsne2",
+        hue=column_name, data=df_tsne,
+        legend="brief", s=50, alpha=0.6)  # palette=sns.color_palette('tab10', n_colors=4),
+
+    plt.title('TSNE selon {}'.format(column_name), fontsize=30, pad=35, fontweight='bold')
+    plt.xlabel('tsne1', fontsize=26, fontweight='bold')
+    plt.ylabel('tsne2', fontsize=26, fontweight='bold')
+    plt.legend(prop={'size': 14})
+
+    plt.show()
+
+
+def print_ari_score(labels, cls):
+    """
+
+    :param labels:
+    :param cls:
+    :return:
+    """
+    print("ARI : ", adjusted_rand_score(labels, cls.labels_))
+
+
+def get_pca_for_features(features):
+    """
+
+
+    :param features:
+    :return:
+    """
+    print("Dimensions dataset avant réduction PCA : ", features.shape)
+    pca = decomposition.PCA(n_components=0.99)
+    feat_pca = pca.fit_transform(features)
+    print("Dimensions dataset après réduction PCA avec 99% variance expliquée: ", feat_pca.shape)
+    return feat_pca
+
+
+def get_tsne(features_pca, df, category_column_name):
+    """
+
+    :param features_pca:
+    :param df:
+    :param category_column_name:
+    :return:
+    """
+    tsne = manifold.TSNE(n_components=2, perplexity=30,
+                         n_iter=2000, init='random', random_state=seed)
+    X_tsne = tsne.fit_transform(features_pca)
+
+    df_tsne = pd.DataFrame(X_tsne[:, 0:2], columns=['tsne1', 'tsne2'])
+    df_tsne["class"] = df[category_column_name]
+    print(df_tsne.shape)
+    return X_tsne, df_tsne
