@@ -8,6 +8,12 @@ Date : October, November 2022.
 
 C:\ProgramData\Anaconda3\python.exe -m pip install --upgrade --force-reinstall opencv-python
 
+pip install "tensorflow>=2.0.0"
+pip install --upgrade tensorflow-hub
+
+conda uninstall tokenizers, transformers
+pip install transformers
+
 ### Context
 
 Pour rendre l’expérience utilisateur des vendeurs (faciliter la mise en ligne de nouveaux articles) et des acheteurs (faciliter la recherche de produits) la plus fluide possible, et dans l'optique d'un passage à l'échelle, il devient nécessaire d'automatiser cette tâche.

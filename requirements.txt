@@ -10,5 +10,6 @@ tensorflow==2.10.0
 opencv-contrib-python==4.6.0.66
 wordcloud
 pandarallel
-
+transformers
+gensim==4.2.0
 
