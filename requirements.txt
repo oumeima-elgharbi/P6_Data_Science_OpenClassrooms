@@ -13,3 +13,5 @@ pandarallel
 transformers
 gensim==4.2.0
 
+tensorflow_hub
+tensorflow-text

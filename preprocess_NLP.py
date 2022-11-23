@@ -21,7 +21,7 @@ from PIL import Image
 
 # import plotly as px
 
-from pandarallel import pandarallel
+#from pandarallel import pandarallel
 
 global stopwords
 stop_words = set(stopwords.words('english'))
