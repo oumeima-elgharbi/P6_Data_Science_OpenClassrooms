@@ -1,9 +1,11 @@
 import pandas as pd
 
 # NLP
+
 from nltk.stem import WordNetLemmatizer, PorterStemmer
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
+from nltk.tokenize import sent_tokenize, word_tokenize
 
 # visualization
 import matplotlib.pyplot as plt
@@ -11,6 +13,9 @@ from wordcloud import WordCloud  ### WARNINGS !!
 
 global stopwords
 stop_words = set(stopwords.words('english'))
+
+global stop_w
+stop_w = list(set(stopwords.words('english'))) + ['[', ']', ',', '.', ':', '?', '(', ')']
 
 
 def display_tokens_info(tokens):
@@ -25,6 +30,11 @@ def display_tokens_info(tokens):
 
 
 def display_wordcloud(corpus_list):
+    """
+
+    :param corpus_list:
+    :return:
+    """
     if len(corpus_list) > 2:  # else figure too big
         plt.figure(figsize=(20, 20))
     else:
@@ -399,3 +409,90 @@ def generate_duplicated_words_list(corpus_list, n=20):
 
     print("The length of the set of duplicated words is", len(duplicated_words_set))
     return duplicated_words_set
+
+
+# Other cleaning functions for text preprocessing
+def tokenizer_fct(sentence):
+    """
+    Tokenizer
+    :param sentence:
+    :return:
+    """
+    # print(sentence)
+    sentence_clean = sentence.replace('-', ' ').replace('+', ' ').replace('/', ' ').replace('#', ' ')
+    word_tokens = word_tokenize(sentence_clean)
+    return word_tokens
+
+
+def stop_word_filter_fct(list_words):
+    """
+
+    :param list_words:
+    :return:
+    """
+    filtered_w = [w for w in list_words if w not in stop_w]
+    filtered_w2 = [w for w in filtered_w if len(w) > 2]
+    return filtered_w2
+
+
+def lower_start_fct(list_words):
+    """
+    lower case and alpha
+    :param list_words:
+    :return:
+    """
+    lw = [w.lower() for w in list_words]
+    return lw
+
+
+def lemma_fct(list_words):
+    """
+    Lemmatizer (words without prefix or suffix)
+    :param list_words:
+    :return:
+    """
+    lemmatizer = WordNetLemmatizer()
+    lem_w = [lemmatizer.lemmatize(w) for w in list_words]
+    return lem_w
+
+
+def transform_bow_fct(desc_text):
+    """
+    Prepares text for bag of words (Countvectorizer et Tf_idf, Word2Vec)
+    :param desc_text:
+    :return:
+    """
+    word_tokens = tokenizer_fct(desc_text)
+    sw = stop_word_filter_fct(word_tokens)
+    lw = lower_start_fct(sw)
+    # lem_w = lemma_fct(lw)
+    transf_desc_text = ' '.join(lw)
+    return transf_desc_text
+
+
+def transform_bow_lem_fct(desc_text):
+    """
+    Prepares text for bag of words with lemmatisation
+    :param desc_text:
+    :return:
+    """
+    word_tokens = tokenizer_fct(desc_text)
+    sw = stop_word_filter_fct(word_tokens)
+    lw = lower_start_fct(sw)
+    lem_w = lemma_fct(lw)
+    transf_desc_text = ' '.join(lem_w)
+    return transf_desc_text
+
+
+def transform_dl_fct(desc_text):
+    """
+    Prepares text for Deep Learning (USE et BERT)
+    :param desc_text:
+    :return:
+    """
+    word_tokens = tokenizer_fct(desc_text)
+    #    sw = stop_word_filter_fct(word_tokens)
+    lw = lower_start_fct(word_tokens)
+    # lem_w = lemma_fct(lw)
+    transf_desc_text = ' '.join(lw)
+    return transf_desc_text

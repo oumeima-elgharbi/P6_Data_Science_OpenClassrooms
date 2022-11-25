@@ -38,39 +38,3 @@ def create_bag_of_words_vectors(data, feature_fit, feature_transform):
     ctf_transform = ctf_transform.transform(df_transform)
 
     return cv_transform, ctf_transform
-
-
-"""
-
-
-def create_bag_of_words_vectors(data, feat_fit, feature_transform):
-
-assert len(feat_fit) == len(feature_transform), "The length of features to fit and transform must be the same"
-
-print("Separate vocabulary")
-# data[feat] needs to be a Pandas Series
-cvect = CountVectorizer(stop_words='english', max_df=0.95, min_df=1)
-ctf = TfidfVectorizer(stop_words='english', max_df=0.95, min_df=1)
-
-if len(feat_fit) == 1:  # we only have on word
-    cv_fit = cvect.fit(data[feat_fit])
-    ctf_fit = ctf.fit(data[feat_fit])
-
-    cv_transform = cvect.transform(data[feature_transform])
-    ctf_transform = ctf.transform(data[feature_transform])
-
-
-elif len(feat_fit) > 1:
-    cv_transform = ColumnTransformer([(x, CountVectorizer(stop_words='english', max_df=0.95, min_df=1), x) for x in
-                                      feat_fit]).fit(data[feat_fit])
-    cv_transform = cv_transform.transform(data[feature_transform])
-
-    # ctf_transform = ColumnTransformer([(x, TfidfVectorizer(stop_words='english', max_df=0.95, min_df=1), x) for x in
-    #                                   feat_fit]).fit_transform(data[feat_fit])
-
-    ctf_transform = ColumnTransformer([(x, TfidfVectorizer(stop_words='english', max_df=0.95, min_df=1), x) for x in
-                                       feat_fit]).fit(data[feat_fit])
-    ctf_transform = ctf_transform.transform(data[feature_transform])
-
-return cv_transform, ctf_transform
-"""

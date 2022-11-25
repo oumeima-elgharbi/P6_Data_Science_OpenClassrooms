@@ -2,11 +2,9 @@ from transformers import AutoTokenizer
 import numpy as np
 from time import time
 from tqdm import tqdm
-# from transformers.models.bert.modeling_bert import BertModel, BertForMaskedLM
 
 
 # common functions
-
 def bert_inp_fct(sentences, bert_tokenizer, max_length):
     """
     # Fonction de préparation des sentences
@@ -22,8 +20,8 @@ def bert_inp_fct(sentences, bert_tokenizer, max_length):
     attention_mask = []
     bert_inp_tot = []
 
-    for sent in sentences:
-        bert_inp = bert_tokenizer.encode_plus(sent,
+    for sentence in sentences:
+        bert_inp = bert_tokenizer.encode_plus(sentence,
                                               add_special_tokens=True,
                                               max_length=max_length,
                                               padding='max_length',
@@ -82,7 +80,6 @@ def feature_BERT_fct(model, model_type, sentences, max_length, b_size, mode='HF'
 
         if step == 0:
             last_hidden_states_tot = last_hidden_states
-            last_hidden_states_tot_0 = last_hidden_states
         else:
             last_hidden_states_tot = np.concatenate((last_hidden_states_tot, last_hidden_states))
 
