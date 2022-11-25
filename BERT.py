@@ -1,7 +1,7 @@
 from transformers import AutoTokenizer
 import numpy as np
 from time import time
-from tqdm import tqdm
+from tqdm.notebook import tqdm
 
 
 # common functions
