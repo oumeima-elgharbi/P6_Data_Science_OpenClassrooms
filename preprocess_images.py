@@ -20,9 +20,9 @@ seed = 42
 def save_features(path, filename, features):
     """
 
-    :param path:
-    :param filename:
-    :param features:
+    :param path: (string)
+    :param filename: (string)
+    :param features: (numpy array)
     :return:
     """
     np.savez_compressed(path + filename, features)
@@ -31,8 +31,8 @@ def save_features(path, filename, features):
 def load_features(path, filename):
     """
 
-    :param path:
-    :param filename:
+    :param path: (string)
+    :param filename: (string)
     :return:
     """
     dict_data = np.load(path + filename, allow_pickle=True)
@@ -113,7 +113,7 @@ def clustering_tsne(X_tsne):
     :param X_tsne:
     :return:
     """
-    cls = KMeans(n_clusters=7, random_state=6)
+    cls = KMeans(n_clusters=7, random_state=seed)
     cls.fit(X_tsne)
     return cls
 
@@ -131,7 +131,7 @@ def display_tsne(df_tsne, column_name):
         hue=column_name, data=df_tsne,
         legend="brief", s=50, alpha=0.6)  # palette=sns.color_palette('tab10', n_colors=4),
 
-    plt.title('TSNE selon {}'.format(column_name), fontsize=30, pad=35, fontweight='bold')
+    plt.title('TSNE according to {}'.format(column_name), fontsize=30, pad=35, fontweight='bold')
     plt.xlabel('tsne1', fontsize=26, fontweight='bold')
     plt.ylabel('tsne2', fontsize=26, fontweight='bold')
     plt.legend(prop={'size': 14})
@@ -142,24 +142,24 @@ def display_tsne(df_tsne, column_name):
 def print_ari_score(labels, cls):
     """
 
-    :param labels:
-    :param cls:
-    :return:
+    :param labels: (list)
+    :param cls: (KMeans clustering)
+    :return: None
     """
-    print("ARI : ", adjusted_rand_score(labels, cls.labels_))
+    print("ARI : ", round(adjusted_rand_score(labels, cls.labels_), 3))
 
 
 def get_pca_for_features(features):
     """
 
 
-    :param features:
+    :param features: (DataFrame)
     :return:
     """
-    print("Dimensions dataset avant réduction PCA : ", features.shape)
+    print("Shape of dataset before PCA : ", features.shape)
     pca = decomposition.PCA(n_components=0.99)
     feat_pca = pca.fit_transform(features)
-    print("Dimensions dataset après réduction PCA avec 99% variance expliquée: ", feat_pca.shape)
+    print("Shape of dataset after PCA with 99% of explained variance : ", feat_pca.shape)
     return feat_pca
 
 

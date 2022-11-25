@@ -1,9 +1,11 @@
 import numpy as np
 
+from keras.models import Model
+from keras.applications.vgg16 import VGG16
 from keras_preprocessing.image import load_img, img_to_array
 from keras.applications.vgg16 import preprocess_input
 
-from tqdm import tqdm
+from tqdm import tqdm_notebook
 
 global seed
 seed = 42
@@ -11,8 +13,10 @@ seed = 42
 
 def predict_category(img_filename, img_dir, model, dict_categories):
     """
-    y is a proba vector of length 7
-    :param y:
+    :param img_filename:
+    :param img_dir:
+    :param model:
+    :param dict_categories:
     :return:
     """
     img = prepare_image_as_input(img_filename, img_dir)
@@ -29,16 +33,20 @@ def predict_category(img_filename, img_dir, model, dict_categories):
 
 def map_category(y, dict_categories):
     """
-    y is a proba vector of length 7
-    :param y:
+
+    :param y: y is a proba vector of length 7
+    :param dict_categories:
     :return:
     """
     return dict_categories[y.argmax()]
 
 
 def prepare_image_as_input(img_filename, img_dir):
-    """"
+    """
     preprocess the image for VGG
+    :param img_filename:
+    :param img_dir:
+    :return:
     """
     # get the image path
     img_path = img_dir + img_filename
@@ -56,8 +64,10 @@ def prepare_image_as_input(img_filename, img_dir):
 
 def predict_features(img_filename, img_dir, model):
     """
-    y is a proba vector of length 7
-    :param y:
+
+    :param img_filename:
+    :param img_dir:
+    :param model:
     :return:
     """
     # get the image path
@@ -71,16 +81,29 @@ def get_features(df, img_path_column_name, img_dir, model):
     """
 
     :param df:
-    :param img_path_column_name:
+    :param img_path_column_name: (string)
+    :param img_dir: (string)
     :param model:
     :return:
     """
     all_features = []
-    for index, row in tqdm(df.iterrows(), total=df.shape[0]):
+    for index in tqdm_notebook(range(df.shape[0])):
         img_filename = df.at[index, img_path_column_name]
         features = predict_features(img_filename, img_dir, model)
         all_features.append(features)
 
-    features_by_img = np.asarray(all_features)
+    features_by_img = np.asarray(all_features, dtype=object)
     features_all = np.concatenate(all_features, axis=0)
     return features_by_img, features_all
+
+
+def build_vgg_features():
+    """
+
+    :return:
+    """
+    # load model
+    vgg = VGG16()
+    # remove the output layer
+    vgg_features_model = Model(inputs=vgg.inputs, outputs=vgg.layers[-2].output)
+    return vgg_features_model
