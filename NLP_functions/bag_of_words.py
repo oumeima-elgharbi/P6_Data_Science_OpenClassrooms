@@ -1,3 +1,6 @@
+import warnings
+warnings.filterwarnings(action="ignore")
+
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.compose import ColumnTransformer
 

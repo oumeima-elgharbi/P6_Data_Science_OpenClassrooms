@@ -1,3 +1,6 @@
+import warnings
+warnings.filterwarnings(action="ignore")
+
 from keras.preprocessing.text import Tokenizer
 from keras.utils import pad_sequences
 from keras.layers import *

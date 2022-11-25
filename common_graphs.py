@@ -1,3 +1,6 @@
+import warnings
+warnings.filterwarnings(action="ignore")
+
 # to compute time of pipeline
 from time import time
 
@@ -7,11 +10,6 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.metrics import adjusted_rand_score
 from sklearn.manifold import TSNE
-
-import warnings
-
-# warnings.filterwarnings(action="ignore")
-warnings.filterwarnings(action="once")
 
 global seed
 seed = 42

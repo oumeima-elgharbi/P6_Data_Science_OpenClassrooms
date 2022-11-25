@@ -1,3 +1,6 @@
+import warnings
+warnings.filterwarnings(action="ignore")
+
 import pandas as pd
 
 # NLP
@@ -5,7 +8,7 @@ import pandas as pd
 from nltk.stem import WordNetLemmatizer, PorterStemmer
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
-from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.tokenize import word_tokenize
 
 # visualization
 import matplotlib.pyplot as plt

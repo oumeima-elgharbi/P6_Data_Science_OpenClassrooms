@@ -1,3 +1,6 @@
+import warnings
+warnings.filterwarnings(action="ignore")
+
 from transformers import AutoTokenizer
 import numpy as np
 from time import time
