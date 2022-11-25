@@ -1,14 +1,4 @@
-import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from os import listdir
-
-from PIL import Image
-from matplotlib.image import imread
-from random import randrange
-
-from sklearn import manifold, decomposition
 
 import cv2  # SIFT
 
@@ -16,7 +6,6 @@ from sklearn.cluster import MiniBatchKMeans
 
 from time import time
 from tqdm import tqdm
-
 
 global seed
 seed = 42
@@ -113,9 +102,9 @@ def get_images_features(sift_keypoints_by_img, kmeans):
     hist_vectors = []
 
     for i, image_desc in enumerate(tqdm(sift_keypoints_by_img)):
-        #if i % 100 == 0: print(i)
-        hist = build_histogram(kmeans, image_desc, i)  #calculates the histogram
-        hist_vectors.append(hist)  #histogram is the feature vector
+        # if i % 100 == 0: print(i)
+        hist = build_histogram(kmeans, image_desc, i)  # calculates the histogram
+        hist_vectors.append(hist)  # histogram is the feature vector
 
     im_features = np.asarray(hist_vectors)
 

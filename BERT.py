@@ -1,6 +1,7 @@
 from transformers import AutoTokenizer
 import numpy as np
 from time import time
+from tqdm import tqdm
 # from transformers.models.bert.modeling_bert import BertModel, BertForMaskedLM
 
 
@@ -10,10 +11,11 @@ def bert_inp_fct(sentences, bert_tokenizer, max_length):
     """
     # Fonction de préparation des sentences
 
-    :param sentences:
+    :param sentences: (list) list of sentences (string)
     :param bert_tokenizer:
     :param max_length:
     :return:
+    :rtype: (tuple)
     """
     input_ids = []
     token_type_ids = []
@@ -50,18 +52,19 @@ def feature_BERT_fct(model, model_type, sentences, max_length, b_size, mode='HF'
 
     :param model:
     :param model_type:
-    :param sentences:
+    :param sentences: (list)
     :param max_length:
-    :param b_size:
+    :param b_size: (int)
     :param mode:
     :return:
+    :rtype: (tuple)
     """
     batch_size = b_size
     batch_size_pred = b_size
     bert_tokenizer = AutoTokenizer.from_pretrained(model_type)
     time1 = time()
 
-    for step in range(len(sentences) // batch_size):
+    for step in tqdm(range(len(sentences) // batch_size)):
         idx = step * batch_size
         input_ids, token_type_ids, attention_mask, bert_inp_tot = bert_inp_fct(sentences[idx:idx + batch_size],
                                                                                bert_tokenizer, max_length)

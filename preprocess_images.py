@@ -5,23 +5,17 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 
-from PIL import Image
-
-from pandarallel import pandarallel
-
 from random import randrange
 from matplotlib.image import imread
 
 from sklearn.metrics import adjusted_rand_score
-from sklearn.cluster import KMeans, MiniBatchKMeans
-
-from tqdm import tqdm
+from sklearn.cluster import KMeans
 
 from sklearn import manifold, decomposition
 
-
 global seed
 seed = 42
+
 
 def save_features(path, filename, features):
     """

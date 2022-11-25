@@ -1,35 +1,13 @@
-import pandas as pd
-
-# visualization
-import seaborn as sns
-import matplotlib.pyplot as plt
 import numpy as np
 
-from PIL import Image
-
-from pandarallel import pandarallel
-
-from random import randrange
-from matplotlib.image import imread
-
-from tqdm import tqdm
-
 from keras_preprocessing.image import load_img, img_to_array
-from keras.applications.vgg16 import VGG16
 from keras.applications.vgg16 import preprocess_input
-from keras.applications.vgg16 import decode_predictions
-
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.models import Model
-
-from keras.optimizers import SGD
 
 from tqdm import tqdm
-
 
 global seed
 seed = 42
+
 
 def predict_category(img_filename, img_dir, model, dict_categories):
     """
@@ -41,12 +19,13 @@ def predict_category(img_filename, img_dir, model, dict_categories):
 
     # predict
     y = model.predict(img)
-    #print(y)
-    #print("y argmax", y.argmax())
+    # print(y)
+    # print("y argmax", y.argmax())
     # get category
     category_nb = y.argmax()
     category = dict_categories[category_nb]
     return category_nb, category
+
 
 def map_category(y, dict_categories):
     """
@@ -105,4 +84,3 @@ def get_features(df, img_path_column_name, img_dir, model):
     features_by_img = np.asarray(all_features)
     features_all = np.concatenate(all_features, axis=0)
     return features_by_img, features_all
-

@@ -1,27 +1,13 @@
-from os import listdir
-from os.path import isfile, join
-
 import pandas as pd
 
 # NLP
-import nltk
 from nltk.stem import WordNetLemmatizer, PorterStemmer
-from nltk.tokenize import word_tokenize, wordpunct_tokenize
-from nltk.corpus import words
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
 
-# import spacy
-
 # visualization
-import seaborn as sns
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud  ### WARNINGS !!
-from PIL import Image
-
-# import plotly as px
-
-#from pandarallel import pandarallel
 
 global stopwords
 stop_words = set(stopwords.words('english'))
