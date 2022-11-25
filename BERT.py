@@ -7,7 +7,7 @@ from tqdm.notebook import tqdm
 # common functions
 def bert_inp_fct(sentences, bert_tokenizer, max_length):
     """
-    # Fonction de préparation des sentences
+    Prepares the sentences
 
     :param sentences: (list) list of sentences (string)
     :param bert_tokenizer:
@@ -46,7 +46,7 @@ def bert_inp_fct(sentences, bert_tokenizer, max_length):
 
 def feature_BERT_fct(model, model_type, sentences, max_length, b_size, mode='HF'):
     """
-    # Fonction de création des features
+    Creates features
 
     :param model:
     :param model_type:
@@ -86,6 +86,6 @@ def feature_BERT_fct(model, model_type, sentences, max_length, b_size, mode='HF'
     features_bert = np.array(last_hidden_states_tot).mean(axis=1)
 
     time2 = np.round(time() - time1, 0)
-    print("temps traitement : ", time2)
+    print("Computing time : ", time2)
 
     return features_bert, last_hidden_states_tot
